@@ -16,7 +16,9 @@
 </head>
 <body class="container">
 	<h1>All Books from Database</h1>
-
+	<p><a href="/books/users/new">Create a User</a></p>
+	
+	<p><a href="/books/databinding/new">Create a Book</a></p>
 
 	<table class="table table-dark">
 		<thead>

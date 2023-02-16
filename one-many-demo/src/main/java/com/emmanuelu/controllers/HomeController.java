@@ -111,13 +111,13 @@ public class HomeController {
 	
 	
 	@GetMapping("/users")
-	public String showAllUsers(Model model) {
+	public String showAllWriters(Model model) {
 		model.addAttribute("listOfUsers", userService.findAllUsers());
 		return "allUsers.jsp";
 	}
 
 	@PostMapping("/users/new")
-	public String createuser(@Valid @ModelAttribute("newUser") User user, BindingResult result) {
+	public String createWriter(@Valid @ModelAttribute("newUser") User user, BindingResult result) {
 		
 		if(result.hasErrors()) {
 			return "userForm.jsp";
@@ -127,6 +127,14 @@ public class HomeController {
 		}
 		
 		
+	}
+	
+	
+	///Display one user/writer/author
+	@GetMapping("/users/{id}")
+	public String showWritersDetials(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("writer", userService.showWriterDetails(id));
+		return "writerDetails.jsp";
 	}
 	
 

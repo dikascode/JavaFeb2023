@@ -16,6 +16,7 @@
 </head>
 <body class="container">
 	<h1>Show All Users</h1>
+	<p><a href="/books/dashboard">Go to Dashboard</a></p>
 
 
 	<table class="table table-dark">
@@ -31,7 +32,7 @@
 			<c:forEach var="eachUser" items="${ listOfUsers}">
 				<tr>
 					<td scope="row"><c:out value="${eachUser.id }" /></td>
-					<td><c:out value="${eachUser.username}" /></td>
+					<td><a href="/books/users/${eachUser.id }"><c:out value="${eachUser.username}" /></a></td>
 					<td><c:out value="${eachUser.email}" /></td>
 		
 				</tr>

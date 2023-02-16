@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ page isErrorPage="true"%>
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,9 +12,16 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 <meta charset="UTF-8">
-<title>JSP</title>
+<title>Book Details</title>
 </head>
-<body>
+<body class="container">
+
+<h1>Details of ${book.title }:</h1>
+<h3>Description: ${book.description }</h3>
+<h3>Language: ${book.language}</h3>
+<h3>Number of Pages: ${book.numberOfPages }</h3>
+
+<p><a href="/books/dashboard">Go to Dashboard</a></p>
 
 </body>
 </html>

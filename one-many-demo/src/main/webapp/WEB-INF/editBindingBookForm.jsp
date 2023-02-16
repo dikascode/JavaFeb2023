@@ -20,10 +20,11 @@
 
 
 	<h1>Edit Book</h1>
+	<p><a href="/books/dashboard">Go to Dashboard</a></p>
 	<form:form action="/books/binding/edit/${book.id }" method="post"
 		modelAttribute="book">
 		<input type="hidden" name="_method" value="put">
-		<p class="form-group">
+	<%-- 	<p class="form-group">
 			<form:label path="writer">Writer</form:label>
 			<form:select path="writer" class="form-control">
 				<c:forEach var="oneWriter" items="${writersList}">
@@ -35,7 +36,7 @@
 					</form:option>
 				</c:forEach>
 			</form:select>
-		</p>
+		</p> --%>
 		<p class="form-group">
 			<form:label path="title">Title</form:label>
 
@@ -59,6 +60,10 @@
 			<form:input type="number" path="numberOfPages" class="form-control" />
 			<form:errors path="numberOfPages" class="text-danger" />
 		</p>
+		
+		<!-- To edit a one to many without updating the owner of the relationship
+		pass the mappedBy of the variable through the path="" -->
+		<form:hidden path="writer"/>
 		<input type="submit" value="Edit" class="btn btn-primary" />
 	</form:form>
 

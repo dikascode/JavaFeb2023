@@ -21,5 +21,7 @@
 <h3>Language: ${book.language}</h3>
 <h3>Number of Pages: ${book.numberOfPages }</h3>
 
+<p><a href="/books/dashboard">Go to Dashboard</a></p>
+
 </body>
 </html>

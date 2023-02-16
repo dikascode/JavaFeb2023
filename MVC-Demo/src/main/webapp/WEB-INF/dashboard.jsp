@@ -22,6 +22,7 @@
 		<thead>
 			<tr>
 				<th scope="col">#ID</th>
+				<th scope="col">Writer</th>
 				<th scope="col">Title</th>
 				<th scope="col">Description</th>
 				<th scope="col">Language</th>
@@ -33,7 +34,8 @@
 		<tbody>
 			<c:forEach var="eachBook" items="${ allBooks}">
 				<tr>
-					<th scope="row"><c:out value="${eachBook.id }" /></th>
+					<td scope="row"><c:out value="${eachBook.id }" /></td>
+					<td><c:out value="${eachBook.writer.username}" /></td>
 					<td><a href="/books/${eachBook.id }"><c:out
 								value="${eachBook.title }" /></a></td>
 					<td><c:out value="${eachBook.description }" /></td>

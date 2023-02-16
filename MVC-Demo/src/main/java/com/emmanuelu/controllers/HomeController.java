@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.emmanuelu.models.Book;
+import com.emmanuelu.models.User;
 import com.emmanuelu.services.BookService;
+import com.emmanuelu.services.UserService;
 
 @Controller
 @RequestMapping("/books")
@@ -27,6 +29,9 @@ public class HomeController {
 //service dependency
 	@Autowired
 	private BookService bookService;
+
+	@Autowired
+	private UserService userService;
 
 	// Return all books
 	@GetMapping("/dashboard")
@@ -63,16 +68,20 @@ public class HomeController {
 
 	// ------------Post using data binding----------------
 	@GetMapping("/databinding/new")
-	public String showDatabindingForm(@ModelAttribute("book") Book book) {
+	public String showDatabindingForm(Model model) {
+		model.addAttribute("book", new Book());
+		model.addAttribute("writersList", userService.returnAllUsers());
+
 		return "databindingForm.jsp";
 	}
 
 	// Process Data binding form
 
 	@PostMapping("/databinding/new")
-	public String processDataBindingForm(@Valid @ModelAttribute("book") Book book, BindingResult result) {
+	public String processDataBindingForm(@Valid @ModelAttribute("book") Book book, BindingResult result, Model model) {
 
 		if (result.hasErrors()) {
+			model.addAttribute("writersList", userService.returnAllUsers());
 			return "databindingForm.jsp";
 		} else {
 			bookService.createBook(book);
@@ -87,6 +96,7 @@ public class HomeController {
 	@GetMapping("/binding/edit/{id}")
 	public String showEditForm(@PathVariable("id") Long id, Model model) {
 		Book bookFound = bookService.findBook(id);
+		model.addAttribute("writersList", userService.returnAllUsers());
 		model.addAttribute("book", bookFound);
 		return "editBindingBookForm.jsp";
 	}
@@ -122,6 +132,30 @@ public class HomeController {
 		model.addAttribute("allBooks", booksFound);
 
 		return "dashboard.jsp";
+	}
+
+	// ------ Show Create user form ------
+	@GetMapping("/users/new")
+	public String showUserForm(@ModelAttribute("newUser") User writer) {
+		return "userForm.jsp";
+	}
+
+	// Show all users
+	@GetMapping("/users")
+	public String showAllUsers(Model model) {
+		model.addAttribute("allUsersList", userService.returnAllUsers());
+		return "allUsers.jsp";
+	}
+
+	@PostMapping("/users/new")
+	public String createWriter(@Valid @ModelAttribute("newUser") User writer, BindingResult result) {
+		if (result.hasErrors()) {
+			return "userForm.jsp";
+		} else {
+
+			userService.createUser(writer);
+			return "redirect:/books/users";
+		}
 	}
 
 }

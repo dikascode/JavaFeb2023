@@ -4,9 +4,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -34,12 +37,17 @@ public class Book {
 	private String description;
 
 	@NotNull()
-	@Size(min = 3, max = 40, message = "Langauge must be at least 3 characters")
+	@Size(min = 3, max = 40, message = "Langauge must be at least 3 characters and at most 40 characters")
 	private String language;
 
 	@NotNull(message="Must be at least 100 pages.")
 	@Min(value=100, message="Must be at least 100 pages.")
 	private Integer numberOfPages; // Always use camel case for naming variables with more than a word
+	
+	//------MANY TO ONE -----------
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="writer_id")
+	 private User writer;
 
 	// This will not allow the createdAt column to be updated after creation
 	@Column(updatable = false)
@@ -126,6 +134,14 @@ public class Book {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public User getWriter() {
+		return writer;
+	}
+
+	public void setWriter(User writer) {
+		this.writer = writer;
 	}
 
 }

@@ -23,6 +23,18 @@
 	<form:form action="/books/databinding/new" method="post"
 		modelAttribute="book">
 		<p class="form-group">
+		<form:label path="writer">Writer</form:label>
+		 <form:select path="writer" class="form-control">
+        <c:forEach var="oneWriter" items="${writersList}">
+            <!--- Each option VALUE is the id of the person --->
+            <form:option value="${oneWriter.id}">
+            <!--- This is what shows to the user as the option --->
+                <c:out value="${oneWriter.username}"/> - <c:out value="${oneWriter.email}"/>
+            </form:option>
+        </c:forEach>
+    	</form:select>
+    	</p>
+		<p class="form-group">
 			<form:label path="title">Title</form:label>
 
 			<form:input path="title" class="form-control" />

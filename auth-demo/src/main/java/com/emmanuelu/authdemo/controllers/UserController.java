@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.emmanuelu.authdemo.models.LoginUser;
 import com.emmanuelu.authdemo.models.User;
+import com.emmanuelu.authdemo.services.DonationService;
 import com.emmanuelu.authdemo.services.UserService;
 
 @Controller
@@ -20,13 +21,19 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private DonationService donationService;
+
 
 	//Route to show home page after user has registered or logged in
 	@GetMapping("/home")
-	public String index(HttpSession session) {
+	public String index(HttpSession session, Model model) {
 		if (session.getAttribute("userName") == null) {
 			return "redirect:/";
 		}
+		
+		model.addAttribute("donationList", donationService.findAllDonations());
 		return "home.jsp";
 	}
 
@@ -42,6 +49,7 @@ public class UserController {
 	@PostMapping("/register")
 	public String register(@Valid @ModelAttribute("newUser") User user, BindingResult result, Model model,
 			HttpSession session) {
+		//registers the user vis the register method in service class
 		User registeredUser = userService.register(user, result);
 
 		if (result.hasErrors()) {
@@ -49,7 +57,7 @@ public class UserController {
 			return "logreg.jsp";
 		} else {
 			session.setAttribute("userName", registeredUser.getUserName());
-
+			session.setAttribute("userId", registeredUser.getId());
 			return "redirect:/home";
 		}
 
@@ -67,6 +75,7 @@ public class UserController {
 			return "logreg.jsp";
 		}else {
 			session.setAttribute("userName", loginUser.getUserName());
+			session.setAttribute("userId", loginUser.getId());
 			return "redirect:/home";
 		}
 		

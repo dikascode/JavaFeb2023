@@ -38,11 +38,13 @@ public class UserService {
 			return null;
 		}
 
+		//bcrypt the user's password
 		String hashed = BCrypt.hashpw(newUser.getPassword(), BCrypt.gensalt());
 
 		// Set the password
 		newUser.setPassword(hashed);
 
+		//Save the user
 		userRepo.save(newUser);
 
 		return newUser;

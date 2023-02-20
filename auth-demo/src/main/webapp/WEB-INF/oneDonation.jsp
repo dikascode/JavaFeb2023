@@ -14,41 +14,36 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 <meta charset="UTF-8">
-<title>User Dashboard</title>
+<title>One Dashboard</title>
 </head>
 <body class="container">
-	<p>
-		<a href="/donations/new">Add a Donation</a>
-	</p>
 
+	<h1>Single Donation Details</h1>
+	
+	<p><a href="/home">Go to Dashboard</a></p>
 
-	<h1>Welcome, ${ userName}</h1>
-	
-	
-		<table class="table table-dark">
-		<thead>
+	<table class="table table-dark">
 			<tr>
-				<th scope="col">#ID</th>
-				<th scope="col">Item Name</th>
-				<th scope="col">Quantity</th>
-				<th scope="col">Donor</th>
+			<td scope="col">Item Name</td>
+				<td><c:out value="${donation.itemName }" /></td>
+			<tr/>
 			
+			<tr>
+			<td scope="col">Quantity</td>
+			<td><c:out value="${donation.quantity }" /></td>
 			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="eachDonation" items="${ donationList}">
-				<tr>
-					<td scope="row"><c:out value="${eachDonation.id }" /></td>
-					<td><a href="/donations/${eachDonation.id }"><c:out value="${eachDonation.itemName}" /></a></td>
-					<td><c:out value="${eachDonation.quantity}" /></td>
-					<td><c:out value="${eachDonation.donor.userName}" /></td>
-		
-				</tr>
-			</c:forEach>
-
-		</tbody>
+			
+			<tr>
+			<td scope="col">Donor</td>
+				<td><c:out value="${donation.donor.userName }" /></td>
+			</tr>
+			
+			<tr>
+				<td scope="col">Contact Donor</td>
+			
+				<td><c:out value="${donation.donor.email }" /></td>
+			</tr>
 	</table>
-
 
 
 	<p>

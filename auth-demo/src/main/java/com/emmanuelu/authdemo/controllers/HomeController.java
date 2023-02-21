@@ -22,21 +22,20 @@ public class HomeController {
 
 	@Autowired
 	private DonationService donationService;
-	
+
 	// Display donation form
 	@GetMapping("/donations/new")
 	public String showDonationForm(Model model, HttpSession session) {
-		
+
 		model.addAttribute("newDonation", new Donation());
-		
+
 		if (session.getAttribute("userId") == null) {
 			return "redirect:/home";
 		}
 
 		return "newDonation.jsp";
 	}
-	
-	
+
 	// process donation submission
 	@PostMapping("/donations/new")
 	public String processDonationForm(@Valid @ModelAttribute("newDonation") Donation donation, BindingResult result,
@@ -50,7 +49,47 @@ public class HomeController {
 
 	}
 
+	// Edit Donation
+	// Get method to show our edit form
+	@GetMapping("/donations/edit/{id}")
+	public String ShowEditDonationForm(@PathVariable("id") Long id, Model model, HttpSession session) {
+		Donation donation = donationService.findOneDonation(id);
+		model.addAttribute("donation", donation);
 
+		if (donation.getDonor().getId() != (Long) session.getAttribute("userId")) {
+			return "redirect:/home";
+		}
 
+		return "editDonation.jsp";
+
+	}
+
+	// process donation edit form using data binding
+	@PutMapping("/donations/edit/{id}")
+	public String editBook(@Valid @ModelAttribute("donation") Donation donation, BindingResult result) {
+
+		if (result.hasErrors()) {
+			return "editDonation.jsp";
+		} else {
+			donationService.editDonation(donation);
+			return "redirect:/home";
+		}
+
+	}
+
+	// Show One donation
+	@GetMapping("/donations/{id}")
+	public String showDonation(@PathVariable("id") Long id, Model model) {
+		Donation donation = donationService.findOneDonation(id);
+		model.addAttribute("donation", donation);
+		return "oneDonation.jsp";
+	}
+
+	// Delete a donation and redirect to dash board
+	@DeleteMapping("donations/delete/{id}")
+	public String deleteDonatuion(@PathVariable("id") Long id) {
+		donationService.deleteDonation(id);
+		return "redirect:/home";
+	}
 
 }

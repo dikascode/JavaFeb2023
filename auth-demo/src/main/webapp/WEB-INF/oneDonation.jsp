@@ -14,7 +14,7 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 <meta charset="UTF-8">
-<title>One Dashboard</title>
+<title>One Donation Dashboard</title>
 </head>
 <body class="container">
 

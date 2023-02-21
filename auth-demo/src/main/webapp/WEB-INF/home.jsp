@@ -23,26 +23,47 @@
 
 
 	<h1>Welcome, ${ userName}</h1>
-	
-	
-		<table class="table table-dark">
+
+
+	<table class="table table-dark">
 		<thead>
 			<tr>
 				<th scope="col">#ID</th>
 				<th scope="col">Item Name</th>
 				<th scope="col">Quantity</th>
 				<th scope="col">Donor</th>
-			
+				<th scope="col">Action</th>
+				<th></th>
+
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach var="eachDonation" items="${ donationList}">
 				<tr>
 					<td scope="row"><c:out value="${eachDonation.id }" /></td>
-					<td><a href="/donations/${eachDonation.id }"><c:out value="${eachDonation.itemName}" /></a></td>
+					<td><a href="/donations/${eachDonation.id }"><c:out
+								value="${eachDonation.itemName}" /></a></td>
 					<td><c:out value="${eachDonation.quantity}" /></td>
 					<td><c:out value="${eachDonation.donor.userName}" /></td>
-		
+
+					<c:choose>
+						<c:when test="${userId.equals(eachDonation.donor.id) }">
+							<td><a href="/donations/edit/${eachDonation.id }">Edit</a></td>
+							<td>
+						<!-- 	Delete form -->
+								<form action="/donations/delete/${eachDonation.id}"
+									method="post">
+									<input type="hidden" name="_method" value="delete"> <input
+										type="submit" value="Delete" class="btn btn-danger">
+								</form>
+							</td>
+						</c:when>
+						<c:otherwise>
+							<td></td>
+							<td></td>
+						</c:otherwise>
+					</c:choose>
+
 				</tr>
 			</c:forEach>
 

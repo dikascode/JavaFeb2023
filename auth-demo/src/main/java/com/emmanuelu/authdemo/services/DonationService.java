@@ -21,9 +21,31 @@ public class DonationService {
 
 	}
 
+	// Edit
+	public Donation editDonation(Donation donation) {
+		return donationRepo.save(donation);
+
+	}
+
 	// Find All
 	public List<Donation> findAllDonations() {
 		return donationRepo.findAll();
+	}
+
+	// Find one
+	public Donation findOneDonation(Long id) {
+		Optional<Donation> optionalDonation = donationRepo.findById(id);
+
+		if (optionalDonation.isPresent()) {
+			return optionalDonation.get();
+		} else {
+			return null;
+		}
+	}
+
+	// Delete
+	public void deleteDonation(Long id) {
+		donationRepo.deleteById(id);
 	}
 
 }

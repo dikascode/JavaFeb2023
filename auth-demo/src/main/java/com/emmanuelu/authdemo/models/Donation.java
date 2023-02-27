@@ -1,6 +1,7 @@
 package com.emmanuelu.authdemo.models;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -38,11 +41,37 @@ public class Donation {
 	
 	// ----------Many to one--------
 
+	public List<User> getReceivers() {
+		return receivers;
+	}
+
+	public void setReceivers(List<User> receivers) {
+		this.receivers = receivers;
+	}
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "donor_id")
 	private User donor;
 
 	// ----------Many to one--------
+	
+	
+	//-----------Many to Many--------
+	
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable(
+			name="recieved_donations",
+			joinColumns = @JoinColumn(name="donation_id"),
+			inverseJoinColumns = @JoinColumn(name="user_id")
+			)
+	private List<User> receivers;
+	
+	
+	
+	
+	
+	
+	//-----------Many to Many--------
 	
 	public Donation() {
 	}
@@ -116,6 +145,5 @@ public class Donation {
 	public void setDonor(User donor) {
 		this.donor = donor;
 	}
-
 
 }

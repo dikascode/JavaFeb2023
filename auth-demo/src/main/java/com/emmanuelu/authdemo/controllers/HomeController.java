@@ -92,4 +92,25 @@ public class HomeController {
 		return "redirect:/home";
 	}
 
+	// Receive an Item
+	@PutMapping("/donations/receive/{id}")
+	public String receiveDonation(@PathVariable("id") Long donationId, HttpSession session) {
+		Long userId = (Long)session.getAttribute("userId");
+		donationService.receiveDonation(donationId, userId);
+		return "redirect:/home";
+		
+	}
+
+	
+	
+	// Return an Item
+	@PutMapping("/donations/return/{id}")
+	public String returnDonation(@PathVariable("id") Long donationId, HttpSession session) {
+		Long userId = (Long)session.getAttribute("userId");
+		donationService.returnDonation(donationId, userId);
+		return "redirect:/home";
+		
+	}
+
+
 }

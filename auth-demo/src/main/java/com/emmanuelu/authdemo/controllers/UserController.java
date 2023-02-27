@@ -21,23 +21,23 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private DonationService donationService;
 
-
-	//Route to show home page after user has registered or logged in
+	// Route to show home page after user has registered or logged in
 	@GetMapping("/home")
 	public String index(HttpSession session, Model model) {
 		if (session.getAttribute("userName") == null) {
 			return "redirect:/";
 		}
 		
+		model.addAttribute("loggedInUser", userService.findUser((Long) session.getAttribute("userId")));
 		model.addAttribute("donationList", donationService.findAllDonations());
 		return "home.jsp";
 	}
 
-	//Route to show registration form
+	// Route to show registration form
 	@GetMapping("/")
 	public String showRegPage(Model model) {
 		model.addAttribute("newUser", new User());
@@ -45,11 +45,12 @@ public class UserController {
 		return "logreg.jsp";
 	}
 
-	//post route for registration matching registration action in form tag in jsp file
+	// post route for registration matching registration action in form tag in jsp
+	// file
 	@PostMapping("/register")
 	public String register(@Valid @ModelAttribute("newUser") User user, BindingResult result, Model model,
 			HttpSession session) {
-		//registers the user vis the register method in service class
+		// registers the user vis the register method in service class
 		User registeredUser = userService.register(user, result);
 
 		if (result.hasErrors()) {
@@ -63,23 +64,20 @@ public class UserController {
 
 	}
 
-	//post route for login matching login action in form tag in jsp file
+	// post route for login matching login action in form tag in jsp file
 	@PostMapping("/login")
 	public String login(@Valid @ModelAttribute("newLogin") LoginUser newLogin, BindingResult result, Model model,
 			HttpSession session) {
 		User loginUser = userService.login(newLogin, result);
-		
-		
-		if(result.hasErrors()) {
+
+		if (result.hasErrors()) {
 			model.addAttribute("newUser", new User());
 			return "logreg.jsp";
-		}else {
+		} else {
 			session.setAttribute("userName", loginUser.getUserName());
 			session.setAttribute("userId", loginUser.getId());
 			return "redirect:/home";
 		}
-		
-		
 
 	}
 

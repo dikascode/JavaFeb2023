@@ -9,6 +9,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -110,7 +113,20 @@ public class User {
 	@OneToMany(mappedBy = "donor", fetch = FetchType.LAZY)
 	private List<Donation> sent_donations;
 
-	// ----------One to Many
+	// ----------One to Many -------
+	
+	
+	//-----------Many to Many--------
+	
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable(
+			name="recieved_donations",
+			joinColumns = @JoinColumn(name="user_id"),
+			inverseJoinColumns = @JoinColumn(name="donation_id")
+			)
+	private List<Donation> received_donations;
+	
+	//-----------Many to Many--------
 
 	@Column(updatable = false)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -127,14 +143,6 @@ public class User {
 	protected void onUpdate() {
 		this.updatedAt = new Date();
 	}
-
-//	public List<Donation> getSent_donations() {
-//		return sent_donations;
-//	}
-//
-//	public void setSent_donations(List<Donation> sent_donations) {
-//		this.sent_donations = sent_donations;
-//	}
 
 	public Date getCreatedAt() {
 		return createdAt;
@@ -160,4 +168,11 @@ public class User {
 		this.sent_donations = sent_donations;
 	}
 
+	public List<Donation> getReceived_donations() {
+		return received_donations;
+	}
+
+	public void setReceived_donations(List<Donation> received_donations) {
+		this.received_donations = received_donations;
+	}
 }

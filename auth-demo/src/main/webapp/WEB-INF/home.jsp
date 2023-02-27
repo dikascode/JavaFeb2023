@@ -58,11 +58,31 @@
 								</form>
 							</td>
 						</c:when>
-						<c:otherwise>
+						
+						<c:when test="${eachDonation.receivers.contains(loggedInUser) }">
+							<td>
+								<form action="/donations/return/${eachDonation.id}" method="post">
+								
+									<input type="hidden" name="_method" value="put"/>
+									<button type="submit" class="btn btn-secondary">Return</button>
+								
+								</form>
+							</td>
 							<td></td>
+						</c:when>
+						<c:otherwise>
+							<td>
+								<form action="/donations/receive/${eachDonation.id}" method="post">
+								
+									<input type="hidden" name="_method" value="put"/>
+									<button type="submit" class="btn btn-warning">Receive</button>
+								
+								</form>
+							
+							</td>
 							<td></td>
 						</c:otherwise>
-					</c:choose>
+</c:choose>
 
 				</tr>
 			</c:forEach>
